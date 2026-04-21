@@ -1,12 +1,14 @@
 package org.github.dabson10.gamevault.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor @NoArgsConstructor
 public class UsuarioCredencialDTO {
     @Email(message = "Formato del correo invalido.") @NotBlank(message = "Correo vacío o valor nulo.")
     private String correo;

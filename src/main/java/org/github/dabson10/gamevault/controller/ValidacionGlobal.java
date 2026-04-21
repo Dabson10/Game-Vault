@@ -1,8 +1,6 @@
 package org.github.dabson10.gamevault.controller;
 
-import org.github.dabson10.gamevault.exceptions.EmailFoundException;
-import org.github.dabson10.gamevault.exceptions.EmailNotFoundException;
-import org.github.dabson10.gamevault.exceptions.IncorrectPasswordException;
+import org.github.dabson10.gamevault.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -67,6 +65,27 @@ public class ValidacionGlobal {
     ){
         Map<String, String> error = new HashMap<>();
         error.put(pass.getClass().getSimpleName(), pass.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+    //======================================
+    //    Sección Desarrollador
+    //Desarrollador existente.
+
+    @ExceptionHandler(NombreDesFound.class)
+    public ResponseEntity<Map<String, String>> correoIgual(
+            NombreDesFound name
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(name.getClass().getSimpleName(), name.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+    //Validación de desarrollador no existente.
+    @ExceptionHandler(DesarrolladorNotFound.class)
+    public ResponseEntity<Map<String, String>> correoIgual(
+            DesarrolladorNotFound des
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(des.getClass().getSimpleName(), des.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 

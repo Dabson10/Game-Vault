@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 @Service
 public class UsuarioService implements UsuarioServiceImp{
 
-    private static final Logger log = LoggerFactory.getLogger(UsuarioService.class);
     private final UsuarioRepository usuRe;
-    private final ClaveHash  claveHash= new ClaveHash();
-    public UsuarioService(UsuarioRepository usuRe){
+    private final ClaveHash  claveHash;
+    public UsuarioService(UsuarioRepository usuRe, ClaveHash claveHash){
         this.usuRe = usuRe;
+        this.claveHash = claveHash;
+        Logger log = LoggerFactory.getLogger(UsuarioService.class);
     }
 
     @Override
