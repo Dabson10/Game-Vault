@@ -1,6 +1,7 @@
 package org.github.dabson10.gamevault.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ public class Plataforma {
     @Column(name = "id_plataforma")
     private Long idPlataforma;
     @Basic
-    @Column(name = "nombre_plataforma")
+    @Column(name = "nombre_plataforma") @NotBlank(message = "Ingrese un nombre de plataforma.")
     private String nombrePlataforma;
     //Se dice sobre que objeto se mapeara.
     @OneToMany(mappedBy = "plataforma")

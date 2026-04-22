@@ -41,9 +41,9 @@ public class ValidacionGlobal {
      * @param email : Excepción
      * @return : Regresa un mensaje con la exception
      */
-    @ExceptionHandler(EmailFoundException.class)
-    public ResponseEntity<Map<String, String>> correoIgual(
-            EmailFoundException email
+    @ExceptionHandler(EmailDuplicateException.class)
+    public ResponseEntity<Map<String, String>> correoDuplicado(
+            EmailDuplicateException email
     ){
         Map<String, String> error = new HashMap<>();
         error.put(email.getClass().getSimpleName(), email.getMessage());
@@ -51,7 +51,7 @@ public class ValidacionGlobal {
     }
     //Correo no encontrado.
     @ExceptionHandler(EmailNotFoundException.class)
-    public ResponseEntity<Map<String, String>> correoIgual(
+    public ResponseEntity<Map<String, String>> correoNoEncontrado(
             EmailNotFoundException email
     ){
         Map<String, String> error = new HashMap<>();
@@ -60,7 +60,7 @@ public class ValidacionGlobal {
     }
     //Contraseña incorrecta.
     @ExceptionHandler({IncorrectPasswordException.class, IllegalArgumentException.class})
-    public ResponseEntity<Map<String, String>> correoIgual(
+    public ResponseEntity<Map<String, String>> claveIncorrecta(
             IncorrectPasswordException pass
     ){
         Map<String, String> error = new HashMap<>();
@@ -71,21 +71,32 @@ public class ValidacionGlobal {
     //    Sección Desarrollador
     //Desarrollador existente.
 
-    @ExceptionHandler(NombreDesFound.class)
-    public ResponseEntity<Map<String, String>> correoIgual(
-            NombreDesFound name
+    @ExceptionHandler(DeveloperNameDuplicate.class)
+    public ResponseEntity<Map<String, String>> desarrolladorDuplicado(
+            DeveloperNameDuplicate name
     ){
         Map<String, String> error = new HashMap<>();
         error.put(name.getClass().getSimpleName(), name.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
     //Validación de desarrollador no existente.
-    @ExceptionHandler(DesarrolladorNotFound.class)
-    public ResponseEntity<Map<String, String>> correoIgual(
-            DesarrolladorNotFound des
+    @ExceptionHandler(DeveloperNotFound.class)
+    public ResponseEntity<Map<String, String>> desarrolladorNoExistente(
+            DeveloperNotFound des
     ){
         Map<String, String> error = new HashMap<>();
         error.put(des.getClass().getSimpleName(), des.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    //============================================
+    //         Excepciones de Plataforma
+    @ExceptionHandler(PlatformDuplicate.class)
+    public ResponseEntity<Map<String, String>> plataformaDuplicada(
+            PlatformDuplicate pd
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(pd.getClass().getSimpleName(), pd.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
