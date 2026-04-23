@@ -2,6 +2,7 @@ package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.UsuarioCredencialDTO;
+import org.github.dabson10.gamevault.dto.UsuarioDTO;
 import org.github.dabson10.gamevault.entity.Usuario;
 import org.github.dabson10.gamevault.service.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -20,19 +21,19 @@ public class UsuarioController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> crearUsuario(
+    public ResponseEntity<UsuarioDTO> crearUsuario(
             @Valid @RequestBody Usuario usuario
     ) {
         //Mandamos el usuario al service y esperamos que guarde al usuario.
-        usuSe.crearUsuario(usuario);
-        return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+        UsuarioDTO usu = usuSe.crearUsuario(usuario);
+        return new ResponseEntity<>(usu, HttpStatus.CREATED);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<?> traerUsuario(
+    public ResponseEntity<UsuarioDTO> traerUsuario(
             @Valid @RequestBody UsuarioCredencialDTO credencial
             ){
-         Usuario usuario =usuSe.loginUsuario(credencial);
+         UsuarioDTO usuario = usuSe.loginUsuario(credencial);
          return new ResponseEntity<>(usuario, HttpStatus.ACCEPTED);
     }
 

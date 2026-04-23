@@ -99,5 +99,25 @@ public class ValidacionGlobal {
         error.put(pd.getClass().getSimpleName(), pd.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
+    //===============================================================
+    //              Excepciones de Videojuego
+
+    @ExceptionHandler(VideojuegoDuplicate.class)
+    public ResponseEntity<Map<String, String>> videojuegoDuplicado(
+            VideojuegoDuplicate vid
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(vid.getClass().getSimpleName(), vid.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(VideojuegoNotFound.class)
+    public ResponseEntity<Map<String, String>> videojuegoNoEncontrado(
+            VideojuegoNotFound vid
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(vid.getClass().getSimpleName(), vid.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
 
 }

@@ -1,6 +1,9 @@
 package org.github.dabson10.gamevault.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +17,16 @@ public class Videojuego {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_videojuego")
     private Long idVideojuego;
+    @NotBlank(message = "Ingrese un nombre.")
     private String nombre;
+    @Min(value = 1, message = "Ingrese una duración mas alta.")
+//    @NotBlank(message = "Ingrese una duración correcta")
     private int duracion;
     @Column(name = "porcentaje_total")
+    @Min(value = 1, message = "Ingrese un porcentaje mayor.")
+//    @NotBlank(message = "Ingrese el porcentaje del videojuego.")
     private int porcentajeTotal;
+    @NotNull(message = "Ingrese una fecha de lanzamiento.")
     private LocalDate lanzado;
     //Se dice sobre que objeto se mapeara.
     @OneToMany(mappedBy = "videojuego")
