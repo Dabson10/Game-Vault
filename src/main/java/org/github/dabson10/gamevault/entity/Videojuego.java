@@ -19,6 +19,8 @@ public class Videojuego {
     private Long idVideojuego;
     @NotBlank(message = "Ingrese un nombre.")
     private String nombre;
+    @NotBlank(message = "Ingrese un autor.")
+    private String autor;
     @Min(value = 1, message = "Ingrese una duración mas alta.")
 //    @NotBlank(message = "Ingrese una duración correcta")
     private int duracion;
