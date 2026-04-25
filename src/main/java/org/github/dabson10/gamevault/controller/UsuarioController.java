@@ -1,8 +1,8 @@
 package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
-import org.github.dabson10.gamevault.dto.UsuarioCredencialDTO;
-import org.github.dabson10.gamevault.dto.UsuarioDTO;
+import org.github.dabson10.gamevault.dto.usuarioDTO.UsuarioCredencialDTO;
+import org.github.dabson10.gamevault.dto.usuarioDTO.UsuarioDTO;
 import org.github.dabson10.gamevault.entity.Usuario;
 import org.github.dabson10.gamevault.service.UsuarioService;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,7 @@
 package org.github.dabson10.gamevault.utility;
 
-import org.github.dabson10.gamevault.dto.PlataformaNombreDTO;
-import org.github.dabson10.gamevault.dto.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.VideojuegoDTO;
+import org.github.dabson10.gamevault.dto.PlataformaDTO.PlataformaNombreDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
-import org.github.dabson10.gamevault.entity.Videojuego;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

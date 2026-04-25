@@ -1,7 +1,7 @@
 package org.github.dabson10.gamevault.service;
 
-import org.github.dabson10.gamevault.dto.UsuarioCredencialDTO;
-import org.github.dabson10.gamevault.dto.UsuarioDTO;
+import org.github.dabson10.gamevault.dto.usuarioDTO.UsuarioCredencialDTO;
+import org.github.dabson10.gamevault.dto.usuarioDTO.UsuarioDTO;
 import org.github.dabson10.gamevault.entity.Usuario;
 
 public interface UsuarioServiceImp {

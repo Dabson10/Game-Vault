@@ -1,7 +1,7 @@
 package org.github.dabson10.gamevault.utility;
 
 
-import org.github.dabson10.gamevault.dto.UsuarioDTO;
+import org.github.dabson10.gamevault.dto.usuarioDTO.UsuarioDTO;
 import org.github.dabson10.gamevault.entity.Usuario;
 import org.springframework.stereotype.Component;
 

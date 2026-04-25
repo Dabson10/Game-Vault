@@ -1,9 +1,8 @@
-package org.github.dabson10.gamevault.dto;
+package org.github.dabson10.gamevault.dto.videojuegoDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.bridge.IMessage;
 import org.github.dabson10.gamevault.entity.Plataforma;
 
 import java.util.List;

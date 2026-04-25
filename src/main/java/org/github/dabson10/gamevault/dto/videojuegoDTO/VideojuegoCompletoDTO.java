@@ -1,9 +1,11 @@
-package org.github.dabson10.gamevault.dto;
+package org.github.dabson10.gamevault.dto.videojuegoDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
+import org.github.dabson10.gamevault.dto.PlataformaDTO.PlataformaNombreDTO;
 
 import java.time.LocalDate;
 import java.util.List;

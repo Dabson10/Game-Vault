@@ -1,7 +1,8 @@
 package org.github.dabson10.gamevault.service;
 
-import org.github.dabson10.gamevault.dto.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.VideojuegoPlataformaDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoNombreDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
 import org.github.dabson10.gamevault.entity.Videojuego;
 import org.github.dabson10.gamevault.exceptions.PlatformDuplicate;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VideojuegoService implements VideojuegoServiceImp {
@@ -60,7 +62,20 @@ public class VideojuegoService implements VideojuegoServiceImp {
             throw new VideojuegoNotFound("Videojuego no existente.");
         }
         //Ahora teniendo el videojuego lo formateamos a la clase VideojuegoCompleto
-        return videoFormat.formatData(vid);
+        return videoFormat.formatDataVideojuego(vid);
+    }
+
+    @Override
+    public VideojuegoCompletoDTO editarVideojuego(VideojuegoNombreDTO video) {
+        Videojuego videoJ = this.existenciaVideojuego(video.getNombre());
+        if(videoJ == null){
+            //Si es null es por que no se encontró.
+            throw new VideojuegoNotFound("No se encontró el videojuego.");
+        }
+        //Ahora realizamos el cambio de nombre
+        videoJ.setNombre(video.getNombreNuevo());
+        viRe.save(videoJ);
+        return videoFormat.formatDataVideojuego(videoJ);
     }
 
     /**
@@ -94,7 +109,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
 
         viRe.save(video);//Esperamos a tener bien la lógica antes de guardar.
         //En esta parte realizo el formato para regresar el objeto de VideojuegoCompletoDTO.
-        return videoFormat.formatData(video);
+        return videoFormat.formatDataVideojuego(video);
     }
 
     /**
@@ -119,7 +134,18 @@ public class VideojuegoService implements VideojuegoServiceImp {
         video.getPlataforma().clear();
         video.getPlataforma().addAll(plat);
         viRe.save(video);
-        return videoFormat.formatData(video);
+        return videoFormat.formatDataVideojuego(video);
+    }
+
+    @Override
+    public Map<String, String> eliminarVideojuego(String nombre) {
+        Videojuego video = this.existenciaVideojuego(nombre);
+        if(video == null){
+            throw new VideojuegoNotFound("No se encontró el videojuego.");
+        }
+
+        viRe.delete(video);
+        return Map.of("Message", (nombre + ", se elimino correctamente."));
     }
 
     /**
@@ -131,7 +157,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
         //Obtenemos la lista con los videojuegos totales.
         List<Videojuego> video = viRe.findAll();
         //Regresamos una lista con los videojuegos formateados.
-        return videoFormat.formatLista(video);
+        return videoFormat.formatListaVideojuego(video);
     }
 
     @Override

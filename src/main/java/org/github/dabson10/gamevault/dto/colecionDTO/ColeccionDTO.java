@@ -1,4 +1,4 @@
-package org.github.dabson10.gamevault.dto;
+package org.github.dabson10.gamevault.dto.colecionDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
