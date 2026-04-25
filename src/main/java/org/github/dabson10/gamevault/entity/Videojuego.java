@@ -37,6 +37,11 @@ public class Videojuego {
     @JoinColumn(name = "id_desarrollador")
     private Desarrollador desarrollador;
 
-    @ManyToMany(mappedBy = "videojuegos")
+    @ManyToMany
+    @JoinTable(
+            name = "plataforma_videojuego",
+            joinColumns = @JoinColumn(name = "id_videojuego"),
+            inverseJoinColumns = @JoinColumn(name =  "id_plataforma")
+    )
     private List<Plataforma> plataforma;
 }

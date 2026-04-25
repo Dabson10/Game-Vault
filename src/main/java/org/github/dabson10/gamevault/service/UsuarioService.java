@@ -19,6 +19,7 @@ public class UsuarioService implements UsuarioServiceImp {
     private final UsuarioRepository usuRe;
     private final ClaveHash claveHash;
     private final FormatUsuario forUser;
+
     public UsuarioService(UsuarioRepository usuRe, ClaveHash claveHash, FormatUsuario forUser) {
         this.usuRe = usuRe;
         this.claveHash = claveHash;

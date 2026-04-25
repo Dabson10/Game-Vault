@@ -2,7 +2,6 @@ package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.VideojuegoDTO;
 import org.github.dabson10.gamevault.dto.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Videojuego;
 import org.github.dabson10.gamevault.service.VideojuegoService;
@@ -38,7 +37,7 @@ public class VideojuegoController {
     public ResponseEntity<?> traerUsuario(
             @PathVariable @Valid String nombre
     ){
-        Videojuego vid = viSe.traerVideojuego(nombre);
+        VideojuegoCompletoDTO vid = viSe.traerVideojuego(nombre);
         return new ResponseEntity<>(vid, HttpStatus.ACCEPTED);
     }
 
@@ -48,13 +47,22 @@ public class VideojuegoController {
         return new ResponseEntity<>(videojuegos, HttpStatus.ACCEPTED);
     }
 
-    //Actualiza un videojuego y agrega cambios en la lista de plataforma.
-    @PutMapping("/plataforma")
-    public ResponseEntity<?> agregarPlataforma(
+    //Actualiza un videojuego y agrega plataformas.
+    @PatchMapping("/plataforma")
+    public ResponseEntity<VideojuegoCompletoDTO> agregarPlataforma(
             @Valid @RequestBody VideojuegoPlataformaDTO videoDTO
             ){
-        log.warn("El nombre del objeto es: {}, y las plataformas son: {}",videoDTO.getNombre(), videoDTO.getPlataforma() );
         VideojuegoCompletoDTO vid = viSe.agregarPlataforma(videoDTO);
         return new ResponseEntity<>(vid, HttpStatus.ACCEPTED);
     }
+
+    //Actualiza un videojuego y elimina plataformas.
+    @PatchMapping("/plataforma/delete")
+    public ResponseEntity<?> eliminarPlataformas(
+            @Valid @RequestBody VideojuegoPlataformaDTO videoDTO
+    ){
+        VideojuegoCompletoDTO video = viSe.eliminarPlataforma(videoDTO);
+        return new ResponseEntity<>(video, HttpStatus.ACCEPTED);
+    }
+
 }

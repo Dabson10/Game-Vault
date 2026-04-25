@@ -1,6 +1,7 @@
 package org.github.dabson10.gamevault.controller;
 
 import org.github.dabson10.gamevault.exceptions.*;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -119,5 +120,25 @@ public class ValidacionGlobal {
         error.put(vid.getClass().getSimpleName(), vid.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
+    //Excepción cuando no se borra ninguna plataforma de la lista de videojuegos.
+    @ExceptionHandler(PlatformsNotDeletedException.class)
+    public ResponseEntity<Map<String, String>> plataformasNoBorradas(
+            PlatformsNotDeletedException vid
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(vid.getClass().getSimpleName(), vid.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    //Excepcion por si se agrega un objeto y este no se encuentra.
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Map<String, String>> objetoNoEncontrado(
+            ObjectNotFoundException obj
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(obj.getClass().getSimpleName(), "Ingresa un objeto existente.");
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
 
 }

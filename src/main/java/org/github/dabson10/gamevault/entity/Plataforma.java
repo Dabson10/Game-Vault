@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity @ToString
 @Table(name = "Plataforma")
 public class Plataforma {
     @Id
@@ -21,13 +22,10 @@ public class Plataforma {
     private String nombrePlataforma;
     //Se dice sobre que objeto se mapeara.
     @OneToMany(mappedBy = "plataforma")
+    @ToString.Exclude
     private List<Coleccion> colecciones;
 
-    @ManyToMany
-    @JoinTable(
-            name = "plataforma_videojuego",
-            joinColumns = @JoinColumn(name = "id_plataforma"),
-            inverseJoinColumns = @JoinColumn(name =  "id_videojuego")
-    )
+    @ManyToMany(mappedBy = "plataforma")
+    @ToString.Exclude
     private List<Videojuego> videojuegos;
 }

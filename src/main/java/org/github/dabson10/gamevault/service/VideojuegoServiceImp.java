@@ -11,9 +11,12 @@ public interface VideojuegoServiceImp {
     //Creación de un videojuego.
     Videojuego crearVideojuego(Videojuego videojuego);
     //Trae un videojuego.
-    Videojuego traerVideojuego(String nombre);
+    VideojuegoCompletoDTO traerVideojuego(String nombre);
 
+    //Agrega plataformas a un videojuego.
     VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaDTO videojuego);
+    //Elimina plataformas de un videojuego.
+    VideojuegoCompletoDTO eliminarPlataforma(VideojuegoPlataformaDTO videoDTO);
     //Traer una lista de videojuegos.
     List<VideojuegoCompletoDTO> listarVideojuegos();
 
