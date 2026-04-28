@@ -45,6 +45,10 @@ public class DesarrolladorService implements DesarrolladorServiceImp {
         return deRe.findByNombre(nombre);
     }
 
+    /**
+     * Función para listar a los desarrolladores.
+     * @return
+     */
     @Override
     public List<DesarrolladorDTO> listaDesarrollador() {
         return formatDes.formatLista(deRe.findAll());

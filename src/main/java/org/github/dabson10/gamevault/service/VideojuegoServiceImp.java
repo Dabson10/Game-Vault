@@ -1,7 +1,7 @@
 package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoNombreDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Videojuego;
 
@@ -10,12 +10,12 @@ import java.util.Map;
 
 public interface VideojuegoServiceImp {
     //Creación de un videojuego.
-    Videojuego crearVideojuego(Videojuego videojuego);
+    VideojuegoCompletoDTO crearVideojuego(Videojuego videojuego);
     //Trae un videojuego.
     VideojuegoCompletoDTO traerVideojuego(String nombre);
 
     //Función para editar el nombre de un videojuego.
-    VideojuegoCompletoDTO editarVideojuego(VideojuegoNombreDTO videoCambio);
+    VideojuegoCompletoDTO editarVideojuego(VideojuegoUpdateDTO videoCambio);
     //Agrega plataformas a un videojuego.
     VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaDTO videojuego);
     //Elimina plataformas de un videojuego.

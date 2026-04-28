@@ -1,7 +1,7 @@
 package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoNombreDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
 import org.github.dabson10.gamevault.entity.Videojuego;
@@ -11,7 +11,8 @@ import org.github.dabson10.gamevault.exceptions.VideojuegoDuplicate;
 import org.github.dabson10.gamevault.exceptions.VideojuegoNotFound;
 import org.github.dabson10.gamevault.repository.VideojuegoRepository;
 import org.github.dabson10.gamevault.utility.CombinarListas;
-import org.github.dabson10.gamevault.utility.FormatVideojuegoDTO;
+import org.github.dabson10.gamevault.utility.videojuegoFormat.FormatVideojuego;
+import org.github.dabson10.gamevault.utility.videojuegoFormat.FormatVideojuegoDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,13 +25,17 @@ public class VideojuegoService implements VideojuegoServiceImp {
     private final VideojuegoRepository viRe;
     private final FormatVideojuegoDTO videoFormat;
     private final CombinarListas combListas;
+    private final FormatVideojuego formVideojuego;
 
 
     //Constructor
-    public VideojuegoService(VideojuegoRepository viSe, FormatVideojuegoDTO videoFormat, CombinarListas combListas){
+    public VideojuegoService(
+            VideojuegoRepository viSe, FormatVideojuegoDTO videoFormat,
+            CombinarListas combListas, FormatVideojuego formVideojuego){
         this.viRe = viSe;
         this.videoFormat = videoFormat;
         this.combListas = combListas;
+        this.formVideojuego = formVideojuego;
     }
 
     /**
@@ -40,14 +45,23 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * @return : Regresará el mismo objeto, confirmando que se guardarón.
      */
     @Override
-    public Videojuego crearVideojuego(Videojuego videojuego) {
+    public VideojuegoCompletoDTO crearVideojuego(Videojuego videojuego) {
         Videojuego vid = this.existenciaVideojuego(videojuego.getNombre());
+        //Validamos que el videojuego exista
         if(vid != null){
             throw new VideojuegoDuplicate("Videojuego existente.");
         }
+        //Ahora que sabemos que existe el juego, debemos formatear del DTO a videojuego
+        //esto para poder guardar el videojuego.
         viRe.save(videojuego);
-        return videojuego;
+        return videoFormat.formatDataVideojuego(videojuego);
     }
+    /**
+     * ===================================================================
+     * Ahora tienes que cambiar la forma en la que mandas los datos del DTO porque lo vas a hacer muy simple.
+     * Solamente guardando los datos del videojuego. El problema no es la forma en que se guardan los datos
+     * es como se muestran o se regresan.
+     */
 
     /**
      * Función para buscar un videojuego mediante su nombre
@@ -65,8 +79,14 @@ public class VideojuegoService implements VideojuegoServiceImp {
         return videoFormat.formatDataVideojuego(vid);
     }
 
+    /**
+     * Este controlador sirve para editar los datos del videojuego, ya sea
+     * el nombre, duración, porcentajeTotal y la fecha de lanzamiento.
+     * @param video : Objeto con el DTO que contendrá los nuevos datos de la clase.
+     * @return : Regresará un DTO con los datos totales formateados.
+     */
     @Override
-    public VideojuegoCompletoDTO editarVideojuego(VideojuegoNombreDTO video) {
+    public VideojuegoCompletoDTO editarVideojuego(VideojuegoUpdateDTO video) {
         Videojuego videoJ = this.existenciaVideojuego(video.getNombre());
         if(videoJ == null){
             //Si es null es por que no se encontró.
@@ -74,6 +94,9 @@ public class VideojuegoService implements VideojuegoServiceImp {
         }
         //Ahora realizamos el cambio de nombre
         videoJ.setNombre(video.getNombreNuevo());
+        videoJ.setDuracion(video.getDuracion());
+        videoJ.setPorcentajeTotal(video.getPorcentajeTotal());
+        videoJ.setLanzado(video.getLanzado());
         viRe.save(videoJ);
         return videoFormat.formatDataVideojuego(videoJ);
     }
@@ -82,7 +105,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * Función para que a un videojuego se le agreguen plataformas nuevas.
      * @param videojuego : Este objeto DTO es la fusion del nombre del juego y
      *                   la una lista de plataformas nuevas que se agregaran.
-     * @return : Regresará un DTO con datos del videojuego completo.
+     * @return : Regresará un DTO con datos del videojuego completo en un DTO.
      */
     @Override
     public VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaDTO videojuego) {
@@ -108,9 +131,10 @@ public class VideojuegoService implements VideojuegoServiceImp {
         video.getPlataforma().addAll(plat);
 
         viRe.save(video);//Esperamos a tener bien la lógica antes de guardar.
-        //En esta parte realizo el formato para regresar el objeto de VideojuegoCompletoDTO.
+        //En esta parte realizo el formato para regresar el objetoivhfdbuvebh.
         return videoFormat.formatDataVideojuego(video);
     }
+
 
     /**
      * Función para eliminar plataformas de las ya existentes.

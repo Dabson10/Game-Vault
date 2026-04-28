@@ -7,8 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Esta clase contendrá dos funcionalidades similares, pero el resultado es diferente. <br>
+ * 1.({@link #combinarColeccionVideojuegos(List, List)})La primera comparará valores iguales
+ * y si son diferentes entonces guarda. <br>
+ * 2.({@link #borrarIguales(List, List)}) Esta función compara dos lista y limina las que se repitan.
+ */
 @Component
 public class CombinarListas {
+
     /**
      * Esta función sirve para fusionar dos listas en una, sin repetir coincidencias.
      * @param plataformaVideo : Lista de las plataformas que tiene el juego. Los valores provienen de la base de datos.

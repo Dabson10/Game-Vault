@@ -2,7 +2,7 @@ package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoNombreDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Videojuego;
 import org.github.dabson10.gamevault.service.VideojuegoService;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import  org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,32 +27,51 @@ public class VideojuegoController {
 
     //Controladores.
 
+    /**
+     * Controlador para crear un videojuego nuevo.
+     * @param videojuego : Objeto con el atributo del nuevo juego.
+     * @return : Regresará el objeto de videojuego.
+     */
     @PostMapping("/create")
-    public ResponseEntity<?> crearVideojuego(
+    public ResponseEntity<VideojuegoCompletoDTO> crearVideojuego(
             @RequestBody @Valid Videojuego videojuego
     ){
-        Videojuego vid = viSe.crearVideojuego(videojuego);
+        VideojuegoCompletoDTO vid = viSe.crearVideojuego(videojuego);
         return new ResponseEntity<>(vid, HttpStatus.CREATED);
     }
 
+    /**
+     * Controlador que traerá el videojuego con base a su nombre.
+     * @param nombre : Nombre del videojuego.
+     * @return : Regresará un DTO, Un desarrolladorDTO, y una lista de plataformaDTO.
+     */
     @GetMapping("/{nombre}/traer")
-    public ResponseEntity<VideojuegoCompletoDTO> traerUsuario(
+    public ResponseEntity<VideojuegoCompletoDTO> traerVideojuego(
             @PathVariable @Valid String nombre
     ){
         VideojuegoCompletoDTO vid = viSe.traerVideojuego(nombre);
         return new ResponseEntity<>(vid, HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Controlador para listar todos los videojuegos.
+     * @return :Regresa una lista que tiene de valores un DTO,
+     * Un desarrolladorDTO, y una lista de plataformaDTO
+     */
     @GetMapping("/list")
     public ResponseEntity<List<VideojuegoCompletoDTO>> listarVideojuegos(){
         List<VideojuegoCompletoDTO> videojuegos =  viSe.listarVideojuegos();
         return new ResponseEntity<>(videojuegos, HttpStatus.ACCEPTED);
     }
 
-    //Actualiza el nombre del videojuego
+    /**
+     * Este controlador edita
+     * @param videojuego
+     * @return
+     */
     @PatchMapping("/editar")
     public ResponseEntity<VideojuegoCompletoDTO> editarDatosJuego(
-            @RequestBody VideojuegoNombreDTO videojuego
+            @RequestBody VideojuegoUpdateDTO videojuego
             ){
         VideojuegoCompletoDTO video = viSe.editarVideojuego(videojuego);
         return new ResponseEntity<>(video, HttpStatus.ACCEPTED);
