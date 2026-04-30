@@ -1,6 +1,7 @@
 package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCreateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
@@ -14,7 +15,6 @@ import org.github.dabson10.gamevault.utility.CombinarListas;
 import org.github.dabson10.gamevault.utility.videojuegoFormat.FormatVideojuego;
 import org.github.dabson10.gamevault.utility.videojuegoFormat.FormatVideojuegoDTO;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * @return : Regresará el mismo objeto, confirmando que se guardarón.
      */
     @Override
-    public VideojuegoCompletoDTO crearVideojuego(Videojuego videojuego) {
+    public VideojuegoCompletoDTO crearVideojuego(VideojuegoCreateDTO videojuego) {
         Videojuego vid = this.existenciaVideojuego(videojuego.getNombre());
         //Validamos que el videojuego exista
         if(vid != null){
@@ -53,15 +53,10 @@ public class VideojuegoService implements VideojuegoServiceImp {
         }
         //Ahora que sabemos que existe el juego, debemos formatear del DTO a videojuego
         //esto para poder guardar el videojuego.
-        viRe.save(videojuego);
-        return videoFormat.formatDataVideojuego(videojuego);
+        vid = viRe.save(formVideojuego.formatVideojuego(videojuego));
+
+        return videoFormat.formatDataVideojuego(vid);
     }
-    /**
-     * ===================================================================
-     * Ahora tienes que cambiar la forma en la que mandas los datos del DTO porque lo vas a hacer muy simple.
-     * Solamente guardando los datos del videojuego. El problema no es la forma en que se guardan los datos
-     * es como se muestran o se regresan.
-     */
 
     /**
      * Función para buscar un videojuego mediante su nombre
@@ -131,7 +126,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
         video.getPlataforma().addAll(plat);
 
         viRe.save(video);//Esperamos a tener bien la lógica antes de guardar.
-        //En esta parte realizo el formato para regresar el objetoivhfdbuvebh.
+        //En esta parte realizo el formato para regresar el objeto.
         return videoFormat.formatDataVideojuego(video);
     }
 

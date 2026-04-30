@@ -1,11 +1,14 @@
 package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
+import org.github.dabson10.gamevault.dto.PlataformaDTO.PlataformaNombreDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
 import org.github.dabson10.gamevault.service.PlataformaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/plataforma")
@@ -18,19 +21,32 @@ public class PlataformaController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> crearPlataforma(
-            @RequestBody @Valid Plataforma plata
+    public ResponseEntity<PlataformaNombreDTO> crearPlataforma(
+            @RequestBody @Valid PlataformaNombreDTO plata
     ){
-        Plataforma plat = plaSe.crearPlataforma(plata);
+        PlataformaNombreDTO plat = plaSe.crearPlataforma(plata);
         return new ResponseEntity<>(plat, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{nombre}/traer")
-    public ResponseEntity<?> traerPlataforma(
-            @PathVariable @Valid String nombre
+    @GetMapping("/traer")
+    public ResponseEntity<PlataformaNombreDTO> traerPlataforma(
+            @RequestBody @Valid PlataformaNombreDTO plataforma
     ){
-        Plataforma plat = plaSe.buscarPlataforma(nombre);
+        PlataformaNombreDTO plat = plaSe.buscarPlataforma(plataforma);
         return new ResponseEntity<>(plat, HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<PlataformaNombreDTO>> listarPlataformas(){
+        List<PlataformaNombreDTO> list = plaSe.listarPlataformas();
+        return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+    }
+
+//    @GetMapping("/{autor}/list")
+//    public ResponseEntity<?> listarJuegosAutores(
+//            @PathVariable String nombre
+//    ){
+//
+//    }
 
 }

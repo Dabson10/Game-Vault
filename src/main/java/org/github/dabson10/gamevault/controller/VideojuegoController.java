@@ -2,6 +2,7 @@ package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCreateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
 import org.github.dabson10.gamevault.entity.Videojuego;
@@ -34,7 +35,7 @@ public class VideojuegoController {
      */
     @PostMapping("/create")
     public ResponseEntity<VideojuegoCompletoDTO> crearVideojuego(
-            @RequestBody @Valid Videojuego videojuego
+            @RequestBody @Valid VideojuegoCreateDTO videojuego
     ){
         VideojuegoCompletoDTO vid = viSe.crearVideojuego(videojuego);
         return new ResponseEntity<>(vid, HttpStatus.CREATED);

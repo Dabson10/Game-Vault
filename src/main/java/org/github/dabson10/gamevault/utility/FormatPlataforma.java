@@ -21,6 +21,7 @@ public class FormatPlataforma {
 
     public PlataformaNombreDTO formatData(Plataforma plataforma){
         PlataformaNombreDTO plDTO = new PlataformaNombreDTO();
+        plDTO.setIdPlataforma(plataforma.getIdPlataforma());
         plDTO.setNombrePlataforma(plataforma.getNombrePlataforma());
         return plDTO;
     }
