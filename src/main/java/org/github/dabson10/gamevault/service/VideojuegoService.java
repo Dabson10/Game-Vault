@@ -2,8 +2,8 @@ package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCreateDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoSimpleDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaBasicDTO;
 import org.github.dabson10.gamevault.entity.Plataforma;
 import org.github.dabson10.gamevault.entity.Videojuego;
 import org.github.dabson10.gamevault.exceptions.PlatformDuplicate;
@@ -47,7 +47,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
     @Override
     public VideojuegoCompletoDTO crearVideojuego(VideojuegoCreateDTO videojuego) {
         Videojuego vid = this.existenciaVideojuego(videojuego.getNombre());
-        //Validamos que el videojuego exista
+        //Si regresa un null entonces no existe el videojuego.
         if(vid != null){
             throw new VideojuegoDuplicate("Videojuego existente.");
         }
@@ -81,7 +81,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * @return : Regresará un DTO con los datos totales formateados.
      */
     @Override
-    public VideojuegoCompletoDTO editarVideojuego(VideojuegoUpdateDTO video) {
+    public VideojuegoCompletoDTO editarVideojuego(VideojuegoSimpleDTO video) {
         Videojuego videoJ = this.existenciaVideojuego(video.getNombre());
         if(videoJ == null){
             //Si es null es por que no se encontró.
@@ -103,7 +103,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * @return : Regresará un DTO con datos del videojuego completo en un DTO.
      */
     @Override
-    public VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaDTO videojuego) {
+    public VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaBasicDTO videojuego) {
 
         Videojuego video = this.existenciaVideojuego(videojuego.getNombre());
         //Validamos que exista el videojuego.
@@ -138,7 +138,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
      * @return : Regresara el objeto en DTO para que no exista datos duplicados.
      */
     @Override
-    public VideojuegoCompletoDTO eliminarPlataforma(VideojuegoPlataformaDTO videoDTO) {
+    public VideojuegoCompletoDTO eliminarPlataforma(VideojuegoPlataformaBasicDTO videoDTO) {
         Videojuego video = this.existenciaVideojuego(videoDTO.getNombre());
         if(video == null){
             throw new VideojuegoNotFound("Videojuego no encontrado.");

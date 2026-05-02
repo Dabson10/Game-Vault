@@ -12,7 +12,7 @@ import java.util.List;
  * a un videojuego o eliminarlas.
  */
 @Setter @Getter
-public class VideojuegoPlataformaDTO {
+public class VideojuegoPlataformaBasicDTO {
     @NotBlank(message = "Ingrese un nombre correcto")
     private String nombre;
     private List<Plataforma> plataforma;

@@ -3,9 +3,8 @@ package org.github.dabson10.gamevault.controller;
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCreateDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoUpdateDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
-import org.github.dabson10.gamevault.entity.Videojuego;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoSimpleDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaBasicDTO;
 import org.github.dabson10.gamevault.service.VideojuegoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +71,7 @@ public class VideojuegoController {
      */
     @PatchMapping("/editar")
     public ResponseEntity<VideojuegoCompletoDTO> editarDatosJuego(
-            @RequestBody VideojuegoUpdateDTO videojuego
+            @RequestBody VideojuegoSimpleDTO videojuego
             ){
         VideojuegoCompletoDTO video = viSe.editarVideojuego(videojuego);
         return new ResponseEntity<>(video, HttpStatus.ACCEPTED);
@@ -81,7 +80,7 @@ public class VideojuegoController {
     //Actualiza un videojuego y agrega plataformas.
     @PatchMapping("/plataforma")
     public ResponseEntity<VideojuegoCompletoDTO> agregarPlataforma(
-            @Valid @RequestBody VideojuegoPlataformaDTO videoDTO
+            @Valid @RequestBody VideojuegoPlataformaBasicDTO videoDTO
             ){
         VideojuegoCompletoDTO vid = viSe.agregarPlataforma(videoDTO);
         return new ResponseEntity<>(vid, HttpStatus.ACCEPTED);
@@ -90,7 +89,7 @@ public class VideojuegoController {
     //Actualiza un videojuego y elimina plataformas.
     @PatchMapping("/plataforma/delete")
     public ResponseEntity<VideojuegoCompletoDTO> eliminarPlataformas(
-            @Valid @RequestBody VideojuegoPlataformaDTO videoDTO
+            @Valid @RequestBody VideojuegoPlataformaBasicDTO videoDTO
     ){
         VideojuegoCompletoDTO video = viSe.eliminarPlataforma(videoDTO);
         return new ResponseEntity<>(video, HttpStatus.ACCEPTED);

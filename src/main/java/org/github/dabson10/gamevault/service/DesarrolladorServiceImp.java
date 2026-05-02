@@ -1,13 +1,14 @@
 package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
+import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorSimpleDTO;
 import org.github.dabson10.gamevault.entity.Desarrollador;
 
 import java.util.List;
 
 public interface DesarrolladorServiceImp {
     //Crear desarrollador
-    Desarrollador crearDesarrollador(Desarrollador desarrollador);
+    DesarrolladorSimpleDTO crearDesarrollador(DesarrolladorSimpleDTO desarrollador);
     //Existencia desarrollador.
     Desarrollador traerDesarrollador(String nombre);
     //Buscar un desarrollador.

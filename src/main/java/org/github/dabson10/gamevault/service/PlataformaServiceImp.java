@@ -13,9 +13,10 @@ public interface PlataformaServiceImp {
     PlataformaNombreDTO buscarPlataforma(PlataformaNombreDTO plataforma);
     //Lista las plataformas
     List<PlataformaNombreDTO> listarPlataformas();
-
-    //Lista una plataforma y los videojuegos en esta que contengan cierto autor.
-    void listarPorAutor(String nombre);
+    //Lista todas las plataformas que no tienen un videojuego.
+    List<PlataformaNombreDTO> listarSinUsar();
+    //Regresará la cantidad de plataformas si usar.
+    Long cantSinUsar();
 
     //Busca si existe una plataforma.
     Plataforma existenciaPlataforma(String nombre);

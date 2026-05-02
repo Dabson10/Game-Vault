@@ -2,6 +2,7 @@ package org.github.dabson10.gamevault.controller;
 
 import jakarta.validation.Valid;
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
+import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorSimpleDTO;
 import org.github.dabson10.gamevault.entity.Desarrollador;
 import org.github.dabson10.gamevault.service.DesarrolladorService;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class DesarrolladorController {
 
     @PostMapping("/create")
     public ResponseEntity<?> crearDesarrollador(
-            @Valid @RequestBody Desarrollador des){
+            @Valid @RequestBody DesarrolladorSimpleDTO des){
          deSe.crearDesarrollador(des);
          return new ResponseEntity<>(des, HttpStatus.CREATED);
     }

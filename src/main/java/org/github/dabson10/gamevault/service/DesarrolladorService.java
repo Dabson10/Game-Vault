@@ -1,11 +1,13 @@
 package org.github.dabson10.gamevault.service;
 
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
+import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorSimpleDTO;
 import org.github.dabson10.gamevault.entity.Desarrollador;
 import org.github.dabson10.gamevault.exceptions.DeveloperNotFound;
 import org.github.dabson10.gamevault.exceptions.DeveloperNameDuplicate;
 import org.github.dabson10.gamevault.repository.DesarrolladorRepository;
-import org.github.dabson10.gamevault.utility.FormatDesarrollador;
+import org.github.dabson10.gamevault.utility.desarrolladorFormat.DesarrolladorSimpleFormat;
+import org.github.dabson10.gamevault.utility.desarrolladorFormat.FormatDesarrollador;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +17,25 @@ public class DesarrolladorService implements DesarrolladorServiceImp {
     //Inyección de dependencias.
     private final DesarrolladorRepository deRe;
     private final FormatDesarrollador formatDes;
+    private final DesarrolladorSimpleFormat desFormSimp;
 
-    public DesarrolladorService(DesarrolladorRepository deRe, FormatDesarrollador formatDesarrollador){
+    public DesarrolladorService(DesarrolladorRepository deRe, FormatDesarrollador formatDesarrollador, DesarrolladorSimpleFormat desFormSimp){
         this.deRe = deRe;
         this.formatDes = formatDesarrollador;
+        this.desFormSimp = desFormSimp;
     }
     @Override
-    public Desarrollador crearDesarrollador(Desarrollador desarrollador) {
+    public DesarrolladorSimpleDTO crearDesarrollador(DesarrolladorSimpleDTO desarrollador) {
         Desarrollador desa = existenciaDesarrollador(desarrollador.getNombre());
-        //Si encuentra a una desarrolladora con ese nombre entonces no procede a guardar.
+        //Si en encuentra un desarrollador entonces
         if(desa != null){
             throw new DeveloperNameDuplicate("Desarrollador existente.");
         }
-        deRe.save(desarrollador);
-        return desarrollador;
+        //Ahora que tenemos un objeto null toca formatear con los datos del DTO a
+        //al objeto vacío
+        desa = deRe.save(desFormSimp.formatDataSimple(desarrollador));
+        //Tienes que revisar por que no se pasa el ID del desarrollador recien creado.
+        return desFormSimp.formatDataSimpleDTO(desa);
     }
 
     @Override

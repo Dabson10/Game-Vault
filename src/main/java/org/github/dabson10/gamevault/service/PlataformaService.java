@@ -17,13 +17,13 @@ public class PlataformaService implements PlataformaServiceImp{
 
     //Inyección de dependencias.
     private final PlataformaRepository plaRe;
-    private final PlataformaFormat formPlatfor;
+    private final PlataformaFormat formPlatform;
     private final Logger log = LoggerFactory.getLogger(PlataformaService.class);
 
     //Constructor.
-    public PlataformaService(PlataformaRepository plaRe, PlataformaFormat formPlatfor){
+    public PlataformaService(PlataformaRepository plaRe, PlataformaFormat formPlatform){
         this.plaRe = plaRe;
-        this.formPlatfor = formPlatfor;
+        this.formPlatform = formPlatform;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PlataformaService implements PlataformaServiceImp{
         if(plat != null){
             throw new PlatformDuplicate("Plataforma existente.");
         }
-        plat =  plaRe.save(formPlatfor.platformDataDTO(plataforma));
+        plat =  plaRe.save(formPlatform.platformDataDTO(plataforma));
         plataforma.setIdPlataforma(plat.getIdPlataforma());
         return plataforma;
     }
@@ -43,22 +43,45 @@ public class PlataformaService implements PlataformaServiceImp{
         if(plat == null){
             throw new PlatformNotFound("Plataforma no encontrada.");
         }
-        PlataformaNombreDTO platDTO = formPlatfor.platformData(plat);
-        return platDTO;
+        return formPlatform.platformData(plat);
     }
 
+    /**
+     * Este service es para listar todas las plataformas existentes, no es necesario saber
+     * si tiene videojuegos asociados solo el nombre e ID.
+     * @return : Lista con objetos.
+     */
     @Override
     public List<PlataformaNombreDTO> listarPlataformas() {
         List<Plataforma> listPlat = plaRe.findAll();
-        return formPlatfor.formatList(listPlat);
+        return formPlatform.formatList(listPlat);
     }
 
+    /**
+     * Este Service es para listas todas las plataformas que no tienen un videojuego asociado.
+     * @return : Regresará una lista con un json u objeto con solo nombre e ID.
+     */
     @Override
-    public void listarPorAutor(String nombre) {
-        List<Plataforma> plataformas ;
-
+    public List<PlataformaNombreDTO> listarSinUsar() {
+        List<Plataforma> plat = plaRe.findByVideojuegosIsEmpty();
+        return formPlatform.formatList(plat);
     }
 
+    /**
+     * Este service es para contar la cantidad de plataformas sin videojuegos.
+     * @return : Regresará un Long que es la cantidad de plataformas sin usuarios.
+     */
+    @Override
+    public Long cantSinUsar() {
+        return plaRe.countByVideojuegosEmpty();
+    }
+
+    /**
+     * Este service es para saber si existe una plataforma, este regresará el objeto
+     * ya sea con un objeto o un null
+     * @param nombrePlataforma : Nombre de la plataforma
+     * @return : Regresará un objeto con valores o un null, esto lo jala de la base de datos.
+     */
     @Override
     public Plataforma existenciaPlataforma(String nombrePlataforma) {
         return plaRe.findByNombrePlataforma(nombrePlataforma);

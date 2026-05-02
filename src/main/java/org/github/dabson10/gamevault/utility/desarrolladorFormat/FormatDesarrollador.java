@@ -1,8 +1,8 @@
-package org.github.dabson10.gamevault.utility;
+package org.github.dabson10.gamevault.utility.desarrolladorFormat;
 
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorVideojuegoDTO;
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformaBasicDTO;
 import org.github.dabson10.gamevault.entity.Desarrollador;
 import org.github.dabson10.gamevault.entity.Videojuego;
 import org.springframework.stereotype.Component;
@@ -41,16 +41,16 @@ public class FormatDesarrollador {
         return desa;
     }
 
-    public List<VideojuegoPlataformaDTO> formatListaPlataforma(List<Videojuego> videojuego){
-        List<VideojuegoPlataformaDTO> list = new ArrayList<>();
+    public List<VideojuegoPlataformaBasicDTO> formatListaPlataforma(List<Videojuego> videojuego){
+        List<VideojuegoPlataformaBasicDTO> list = new ArrayList<>();
         videojuego.forEach(video -> {
             list.add(this.formatDataPlataforma(video));
         });
         return list;
     }
 
-    public VideojuegoPlataformaDTO formatDataPlataforma(Videojuego video){
-        VideojuegoPlataformaDTO viPla = new VideojuegoPlataformaDTO();
+    public VideojuegoPlataformaBasicDTO formatDataPlataforma(Videojuego video){
+        VideojuegoPlataformaBasicDTO viPla = new VideojuegoPlataformaBasicDTO();
         viPla.setNombre(video.getNombre());
         return viPla;
     }

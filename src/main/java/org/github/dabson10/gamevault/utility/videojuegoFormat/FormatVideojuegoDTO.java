@@ -2,7 +2,7 @@ package org.github.dabson10.gamevault.utility.videojuegoFormat;
 
 import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoCompletoDTO;
 import org.github.dabson10.gamevault.entity.Videojuego;
-import org.github.dabson10.gamevault.utility.FormatDesarrollador;
+import org.github.dabson10.gamevault.utility.desarrolladorFormat.FormatDesarrollador;
 import org.github.dabson10.gamevault.utility.FormatPlataforma;
 import org.springframework.stereotype.Component;
 
