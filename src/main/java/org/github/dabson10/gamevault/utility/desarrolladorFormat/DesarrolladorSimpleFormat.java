@@ -27,6 +27,7 @@ public class DesarrolladorSimpleFormat {
     public DesarrolladorSimpleDTO formatDataSimpleDTO(Desarrollador desarrollador){
         DesarrolladorSimpleDTO des = new DesarrolladorSimpleDTO();
         des.setIdDesarrollador(desarrollador.getIdDesarrollador());
+        System.out.println("El ID es: " + des.getIdDesarrollador());
         des.setNombre(desarrollador.getNombre());
         des.setUbicacion(desarrollador.getUbicacion());
         des.setCreador(desarrollador.getCreador());

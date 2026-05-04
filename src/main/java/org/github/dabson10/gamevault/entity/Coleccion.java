@@ -12,6 +12,7 @@ public class Coleccion {
     @Column(name = "id_coleccion")
     private Long idColeccion;
     private String progreso;
+    private String estado;
     private int horasJugadas;
     private String formato;
     private String proposito;

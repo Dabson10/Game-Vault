@@ -9,10 +9,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Esta clase es un DTO que se utilizara en la mayoría de los {@code controller} para
+ * Esta clase es un DTO que se utilizara en la mayoría de los {@code controller}
+ * para
  * que regrese un valor completo y sin bucles de datos.
- * */
-@Getter @Setter
+ */
+@Getter
+@Setter
 public class VideojuegoCompletoDTO {
     private Long idVideojuego;
     private String nombre;
@@ -20,8 +22,8 @@ public class VideojuegoCompletoDTO {
     private int duracion;
     private int porcentajeTotal;
     private LocalDate lanzado;
-    //DesarrolladorDTO
+    // DesarrolladorDTO
     DesarrolladorVideojuegoDTO desarrolladores;
-    //PlataformaDTO
+    // PlataformaDTO
     private List<PlataformaNombreDTO> plataformas;
 }

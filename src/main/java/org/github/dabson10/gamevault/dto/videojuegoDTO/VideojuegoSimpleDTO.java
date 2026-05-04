@@ -9,10 +9,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 /**
- * Esta clase sirve para ingresar el nombre de un videojuego y los nuevos valores de este.
+ * Esta clase sirve para ingresar el nombre de un videojuego y los nuevos
+ * valores de este.
  * Esta función será llamada para el service {@code #VideojuegoService}.
  */
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VideojuegoSimpleDTO {

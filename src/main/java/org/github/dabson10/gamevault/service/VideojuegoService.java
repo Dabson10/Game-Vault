@@ -21,17 +21,16 @@ import java.util.Map;
 
 @Service
 public class VideojuegoService implements VideojuegoServiceImp {
-    //Inyección de dependencias.
+    // Inyección de dependencias.
     private final VideojuegoRepository viRe;
     private final FormatVideojuegoDTO videoFormat;
     private final CombinarListas combListas;
     private final FormatVideojuego formVideojuego;
 
-
-    //Constructor
+    // Constructor
     public VideojuegoService(
             VideojuegoRepository viSe, FormatVideojuegoDTO videoFormat,
-            CombinarListas combListas, FormatVideojuego formVideojuego){
+            CombinarListas combListas, FormatVideojuego formVideojuego) {
         this.viRe = viSe;
         this.videoFormat = videoFormat;
         this.combListas = combListas;
@@ -41,18 +40,19 @@ public class VideojuegoService implements VideojuegoServiceImp {
     /**
      * Función para crear solamente un videojuego sin crear colecciones incluyendo
      * las plataformas a las que pertenece.
+     * 
      * @param videojuego : Objeto con los datos que se guardaran.
      * @return : Regresará el mismo objeto, confirmando que se guardarón.
      */
     @Override
     public VideojuegoCompletoDTO crearVideojuego(VideojuegoCreateDTO videojuego) {
         Videojuego vid = this.existenciaVideojuego(videojuego.getNombre());
-        //Si regresa un null entonces no existe el videojuego.
-        if(vid != null){
+        // Si regresa un null entonces no existe el videojuego.
+        if (vid != null) {
             throw new VideojuegoDuplicate("Videojuego existente.");
         }
-        //Ahora que sabemos que existe el juego, debemos formatear del DTO a videojuego
-        //esto para poder guardar el videojuego.
+        // Ahora que sabemos que existe el juego, debemos formatear del DTO a videojuego
+        // esto para poder guardar el videojuego.
         vid = viRe.save(formVideojuego.formatVideojuego(videojuego));
 
         return videoFormat.formatDataVideojuego(vid);
@@ -60,34 +60,36 @@ public class VideojuegoService implements VideojuegoServiceImp {
 
     /**
      * Función para buscar un videojuego mediante su nombre
+     * 
      * @param nombre : Nombre del videojuego.
      * @return : Regresara un DTO de la clase videojuego para que no exista
-     *          ningún error o bucle de datos.
+     *         ningún error o bucle de datos.
      */
     @Override
     public VideojuegoCompletoDTO traerVideojuego(String nombre) {
         Videojuego vid = this.existenciaVideojuego(nombre);
-        if(vid == null){
+        if (vid == null) {
             throw new VideojuegoNotFound("Videojuego no existente.");
         }
-        //Ahora teniendo el videojuego lo formateamos a la clase VideojuegoCompleto
+        // Ahora teniendo el videojuego lo formateamos a la clase VideojuegoCompleto
         return videoFormat.formatDataVideojuego(vid);
     }
 
     /**
      * Este controlador sirve para editar los datos del videojuego, ya sea
      * el nombre, duración, porcentajeTotal y la fecha de lanzamiento.
+     * 
      * @param video : Objeto con el DTO que contendrá los nuevos datos de la clase.
      * @return : Regresará un DTO con los datos totales formateados.
      */
     @Override
     public VideojuegoCompletoDTO editarVideojuego(VideojuegoSimpleDTO video) {
         Videojuego videoJ = this.existenciaVideojuego(video.getNombre());
-        if(videoJ == null){
-            //Si es null es por que no se encontró.
+        if (videoJ == null) {
+            // Si es null es por que no se encontró.
             throw new VideojuegoNotFound("No se encontró el videojuego.");
         }
-        //Ahora realizamos el cambio de nombre
+        // Ahora realizamos el cambio de nombre
         videoJ.setNombre(video.getNombreNuevo());
         videoJ.setDuracion(video.getDuracion());
         videoJ.setPorcentajeTotal(video.getPorcentajeTotal());
@@ -98,6 +100,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
 
     /**
      * Función para que a un videojuego se le agreguen plataformas nuevas.
+     * 
      * @param videojuego : Este objeto DTO es la fusion del nombre del juego y
      *                   la una lista de plataformas nuevas que se agregaran.
      * @return : Regresará un DTO con datos del videojuego completo en un DTO.
@@ -106,48 +109,48 @@ public class VideojuegoService implements VideojuegoServiceImp {
     public VideojuegoCompletoDTO agregarPlataforma(VideojuegoPlataformaBasicDTO videojuego) {
 
         Videojuego video = this.existenciaVideojuego(videojuego.getNombre());
-        //Validamos que exista el videojuego.
-        if(video == null){
+        // Validamos que exista el videojuego.
+        if (video == null) {
             throw new VideojuegoNotFound("No se encontró el videojuego.");
         }
 
-        //Guardamos en una lista los valores combinados de la lista plataforma,
-        //en una lista que guardara datos de una función en donde pasaremos la primera lista
-        List<Plataforma> plat = new ArrayList<>( combListas.combinarColeccionVideojuegos(
+        // Guardamos en una lista los valores combinados de la lista plataforma,
+        // en una lista que guardara datos de una función en donde pasaremos la primera
+        // lista
+        List<Plataforma> plat = new ArrayList<>(combListas.combinarColeccionVideojuegos(
                 video.getPlataforma(), videojuego.getPlataforma()));
 
-
-        //Validamos que no se repitan datos.
-        if(plat.isEmpty()){
-            //Si esta vacía significa que se repitieron plataformas.
+        // Validamos que no se repitan datos.
+        if (plat.isEmpty()) {
+            // Si esta vacía significa que se repitieron plataformas.
             throw new PlatformDuplicate("Plataformas existentes, agregue otras.");
         }
         video.getPlataforma().clear();
         video.getPlataforma().addAll(plat);
 
-        viRe.save(video);//Esperamos a tener bien la lógica antes de guardar.
-        //En esta parte realizo el formato para regresar el objeto.
+        viRe.save(video);// Esperamos a tener bien la lógica antes de guardar.
+        // En esta parte realizo el formato para regresar el objeto.
         return videoFormat.formatDataVideojuego(video);
     }
 
-
     /**
      * Función para eliminar plataformas de las ya existentes.
+     * 
      * @param videoDTO : Este objeto DTO es la fusion del nombre del juego y
-     *                  la una lista de plataformas nuevas que se agregaran.
+     *                 la una lista de plataformas nuevas que se agregaran.
      * @return : Regresara el objeto en DTO para que no exista datos duplicados.
      */
     @Override
     public VideojuegoCompletoDTO eliminarPlataforma(VideojuegoPlataformaBasicDTO videoDTO) {
         Videojuego video = this.existenciaVideojuego(videoDTO.getNombre());
-        if(video == null){
+        if (video == null) {
             throw new VideojuegoNotFound("Videojuego no encontrado.");
         }
-        List<Plataforma> plat = new ArrayList<>
-                (combListas.borrarIguales(video.getPlataforma(), videoDTO.getPlataforma()));
+        List<Plataforma> plat = new ArrayList<>(
+                combListas.borrarIguales(video.getPlataforma(), videoDTO.getPlataforma()));
 
-        if(video.getPlataforma().size() < plat.size()){
-            //Si la lista regresa vacía entonces regresamos una excepción.
+        if (video.getPlataforma().size() < plat.size()) {
+            // Si la lista regresa vacía entonces regresamos una excepción.
             throw new PlatformsNotDeletedException("Las plataformas ingresadas no coinciden con las guardadas.");
         }
         video.getPlataforma().clear();
@@ -159,7 +162,7 @@ public class VideojuegoService implements VideojuegoServiceImp {
     @Override
     public Map<String, String> eliminarVideojuego(String nombre) {
         Videojuego video = this.existenciaVideojuego(nombre);
-        if(video == null){
+        if (video == null) {
             throw new VideojuegoNotFound("No se encontró el videojuego.");
         }
 
@@ -169,13 +172,14 @@ public class VideojuegoService implements VideojuegoServiceImp {
 
     /**
      * Función para listar todos los videojuegos.
+     * 
      * @return : Regresará una lista de todos los videojuegos en DTO.
      */
     @Override
     public List<VideojuegoCompletoDTO> listarVideojuegos() {
-        //Obtenemos la lista con los videojuegos totales.
+        // Obtenemos la lista con los videojuegos totales.
         List<Videojuego> video = viRe.findAll();
-        //Regresamos una lista con los videojuegos formateados.
+        // Regresamos una lista con los videojuegos formateados.
         return videoFormat.formatListaVideojuego(video);
     }
 

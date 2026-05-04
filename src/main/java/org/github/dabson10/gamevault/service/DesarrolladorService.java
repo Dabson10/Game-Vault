@@ -1,5 +1,6 @@
 package org.github.dabson10.gamevault.service;
 
+import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorCompletoDTO;
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorDTO;
 import org.github.dabson10.gamevault.dto.DesarrolladorDTO.DesarrolladorSimpleDTO;
 import org.github.dabson10.gamevault.entity.Desarrollador;
@@ -8,6 +9,7 @@ import org.github.dabson10.gamevault.exceptions.DeveloperNameDuplicate;
 import org.github.dabson10.gamevault.repository.DesarrolladorRepository;
 import org.github.dabson10.gamevault.utility.desarrolladorFormat.DesarrolladorSimpleFormat;
 import org.github.dabson10.gamevault.utility.desarrolladorFormat.FormatDesarrollador;
+import org.github.dabson10.gamevault.utility.desarrolladorFormat.FormatDesarrolladorCompleto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,33 +20,37 @@ public class DesarrolladorService implements DesarrolladorServiceImp {
     private final DesarrolladorRepository deRe;
     private final FormatDesarrollador formatDes;
     private final DesarrolladorSimpleFormat desFormSimp;
+    private final FormatDesarrolladorCompleto  desFormComp;
 
-    public DesarrolladorService(DesarrolladorRepository deRe, FormatDesarrollador formatDesarrollador, DesarrolladorSimpleFormat desFormSimp){
+    public DesarrolladorService(DesarrolladorRepository deRe, FormatDesarrollador formatDesarrollador,
+                                DesarrolladorSimpleFormat desFormSimp, FormatDesarrolladorCompleto  desFormComp){
         this.deRe = deRe;
         this.formatDes = formatDesarrollador;
         this.desFormSimp = desFormSimp;
+        this.desFormComp = desFormComp;
     }
     @Override
     public DesarrolladorSimpleDTO crearDesarrollador(DesarrolladorSimpleDTO desarrollador) {
         Desarrollador desa = existenciaDesarrollador(desarrollador.getNombre());
-        //Si en encuentra un desarrollador entonces
+        //Si se encuentra un desarrollador entonces no proseguimos
         if(desa != null){
             throw new DeveloperNameDuplicate("Desarrollador existente.");
         }
         //Ahora que tenemos un objeto null toca formatear con los datos del DTO a
         //al objeto vacío
         desa = deRe.save(desFormSimp.formatDataSimple(desarrollador));
-        //Tienes que revisar por que no se pasa el ID del desarrollador recien creado.
+        System.out.println("El ID desde el service es: " + desa.getIdDesarrollador());
+        //Tienes que revisar porque no se pasa el ID del desarrollador recién creado.
         return desFormSimp.formatDataSimpleDTO(desa);
     }
 
     @Override
-    public Desarrollador traerDesarrollador(String nombre) {
+    public DesarrolladorCompletoDTO traerDesarrollador(String nombre) {
         Desarrollador des = this.existenciaDesarrollador(nombre);
         if(des == null){
             throw new DeveloperNotFound("No se encontró el desarrollador.");
         }
-        return des;
+        return desFormComp.formDataDesarrolladorCompletoDTO(des);
     }
 
     @Override

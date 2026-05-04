@@ -140,5 +140,15 @@ public class ValidacionGlobal {
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
+    //================== Exceptions de generos. ==========
+    @ExceptionHandler(GeneroDuplicateException.class)
+    public ResponseEntity<Map<String, String>> generoDuplicado(
+            GeneroDuplicateException gen
+    ){
+        Map<String, String> error = new HashMap<>();
+        error.put(gen.getClass().getSimpleName(), "Genero duplicado, ingrese otro.");
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
 
 }

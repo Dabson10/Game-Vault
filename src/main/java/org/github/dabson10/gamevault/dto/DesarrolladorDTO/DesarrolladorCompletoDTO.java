@@ -2,7 +2,7 @@ package org.github.dabson10.gamevault.dto.DesarrolladorDTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoSimpleDTO;
+import org.github.dabson10.gamevault.dto.videojuegoDTO.VideojuegoPlataformasDTO;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public class DesarrolladorCompletoDTO {
     private String nombre;
     private String ubicacion;
     private String creador;
-    private List<VideojuegoSimpleDTO> videojuego;
+    private List<VideojuegoPlataformasDTO> videojuego;
 }

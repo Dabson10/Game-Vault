@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter @Setter
 public class VideojuegoPlataformasDTO {
+    private Long idVideojuego;
     private String nombre;
     private String autor;
     private int duracion;
