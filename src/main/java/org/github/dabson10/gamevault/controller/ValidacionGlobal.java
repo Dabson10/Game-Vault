@@ -140,7 +140,7 @@ public class ValidacionGlobal {
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    //================== Exceptions de generos. ==========
+    //================== Exceptions de géneros. ==========
     @ExceptionHandler(GeneroDuplicateException.class)
     public ResponseEntity<Map<String, String>> generoDuplicado(
             GeneroDuplicateException gen
